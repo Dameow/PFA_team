@@ -28,20 +28,20 @@ def analysis(soup):
 	tr_list = temp.find_all('tr') #temp.是什么？？？
 	for tr in tr_list:
 	    # ToDolist：提取汽车投诉信息,从tr里找出所有的td
-	    temp={} #？？？
+	    temp={} #字典
 	    td_list=tr.find_all('td') #第一个tr没有td，而是th，也就是表头。其余几行都有8个td
-	    if len(td_list)>0: #如果检测到td,就开始读每个字段的内容（注意加.text，不然拿的是整个标签
+	    if len(td_list)>0: #如果检测到td,就开始读每个字段的内容（注意加.text，不然拿的是整个标签)
 	    	id, brand, car_model, type, desc, problem, datatime, status = td_list[0].text, td_list[1].text, td_list[2].text, td_list[3].text, td_list[4].text, td_list[5].text, td_list[6].text, td_list[7].text
 	    #然后放到DataFrame中的temp变量里
-	    temp['id'], temp['brand'], temp['car_model'], temp[ 'type'], temp[ 'desc'], temp[ 'problem'], temp[ 'datetime'], temp[ 'status'] = id, brand, car_model, type, desc, problem, datatime, status 
-	    df = df.append(temp,ignore_index=True) 
+	    	temp['id'], temp['brand'], temp['car_model'], temp[ 'type'], temp[ 'desc'], temp[ 'problem'], temp[ 'datetime'], temp[ 'status'] = id, brand, car_model, type, desc, problem, datatime, status 
+	    	df = df.append(temp,ignore_index=True) 
 	return df
 
 # df=analysis(soup)
 # print(df)
 
-# 如果要抓多页的话：
-Page_num=20 #抓20页
+# 如果要抓多页：
+Page_num=20 
 base_url= 'http://www.12365auto.com/zlts/0-0-0-0-0-0_0-0-0-0-0-0-0-1' #从页码的基数开始抓，注意，没有.shtml
 
 	#创建DataFrame：
@@ -53,4 +53,4 @@ for i in range(Page_num):
 	print(df)
 	result= result.append(df)
 
-result.to_csv('result.csv',index=False)		
+result.to_csv('result.csv',index=False)			
